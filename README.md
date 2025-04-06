@@ -6,8 +6,6 @@
 
 - **Détection automatique** des jeux en cours d’exécution
 - **Suivi du temps de jeu** précis, jeu par jeu
-- **Sauvegarde locale** sécurisée via `electron-store`
-- **Synchronisation en ligne** avec Supabase (optionnelle)
 - **Raccourcis clavier globaux** personnalisables
 - **Overlay léger** (en cours de développement) pour afficher votre progression en temps réel pendant le jeu
 - **Gestion de collection de jeux multi-plateformes**, anciennes comme nouvelles générations
@@ -34,9 +32,27 @@ Dans une époque où l’accès aux jeux vidéo est massif, entre Steam, Epic Ga
 
 Hubscord vous aide à **centraliser et suivre votre collection de jeux**, toutes plateformes confondues, pour mieux organiser vos sessions et **reprendre en main les pépites oubliées**.
 
+## Intégration des plateformes et ajout manuel
+
+Afin de proposer une expérience utilisateur riche dès le lancement de l’application, **Hubscord** s’appuie sur plusieurs **API officielles de plateformes de jeux** pour récupérer automatiquement les informations liées à vos jeux et à votre progression, notamment :
+
+- **Steam Web API** : récupération de votre bibliothèque, du temps de jeu, des succès, etc.
+- **Riot Games API** : intégration spécifique pour *League of Legends*, *Valorant*, etc.
+- **(À venir)** : support progressif d'autres plateformes majeures comme **Epic Games**, **PlayStation**, **Xbox**, **Battle.net**, et autres via leurs APIs ou SDKs.
+
+Ces intégrations permettent de **pré-remplir automatiquement votre bibliothèque virtuelle**, afin que vous puissiez suivre votre activité sans saisie manuelle.
+
+Cependant, certains jeux — notamment ceux joués sur des plateformes sans API publique ou des jeux indépendants — pourraient ne pas être détectés automatiquement. **Hubscord vous permettra alors de :**
+
+- **Ajouter des jeux manuellement** dans votre collection
+- **Définir des objectifs personnalisés**, comme des succès ou des temps à atteindre
+- **Suivre leur progression** comme n’importe quel autre jeu
+
+L’objectif est de garantir une **prise en charge universelle**, que vous jouiez à un AAA récent ou à un jeu rétro sur un émulateur.
+
 ## Installation
 
-1. Rendez-vous dans la section [📥 Releases](https://github.com/brandonsannier/hubscord/releases)
+1. Rendez-vous dans la section [Releases](https://github.com/brandonsannier/hubscord/releases)
 2. Téléchargez le fichier d'installation `Hubscord Setup X.X.X.exe`
 3. Lancez-le : l'application démarrera automatiquement après installation
 
@@ -64,6 +80,19 @@ npm run start
 ```bash
 npm run build
 ```
+### Variables d'environnement
+
+Le projet utilise un fichier `.env` pour stocker les **clés API sensibles** (Steam, Riot Games, etc.).
+
+> ⚠️ Ce fichier n’est **pas versionné** pour des raisons de sécurité (`.gitignore`), mais un **exemple** est disponible dans le projet.
+
+Vous pouvez ensuite :
+
+- **Fournir vos propres clés API**
+- Ou laisser les champs vides pour lancer l’application sans connexion aux services externes  
+  (certaines fonctionnalités seront alors désactivées automatiquement)
+
+Cela permet aux contributeurs de **travailler sans contrainte**, tout en **protégeant les clés personnelles** du créateur du projet.
 
 ## Contribuer
 
