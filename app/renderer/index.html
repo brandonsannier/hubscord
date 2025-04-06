@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubscord</title>
+    <link rel="stylesheet" href="../../styles/main.min.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        /* ... autres styles ... */
+
+        .overlay-control {
+            padding: 12px;
+            background: rgba(47, 49, 54, 0.4);
+            border-radius: 8px;
+            margin-top: auto;
+            margin-bottom: 16px;
+        }
+
+        .overlay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .overlay-header h4 {
+            font-size: 14px;
+            color: #fff;
+            margin: 0;
+        }
+
+        .toggle-overlay {
+            background: transparent;
+            border: none;
+            color: #2ECC71;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-overlay:hover {
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .toggle-overlay.active {
+            color: #2ECC71;
+        }
+
+        .shortcut-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(32, 34, 37, 0.6);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .shortcut-display {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+
+        .edit-shortcut {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .edit-shortcut:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Styles des cartes de statistiques */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0.1) 100%);
+        }
+
+        .stat-card iconify-icon {
+            font-size: 32px;
+            color: #2ECC71;
+            padding: 12px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover iconify-icon {
+            transform: scale(1.1);
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        /* Styles des cartes d'événements */
+        .event-card {
+            background: linear-gradient(135deg, rgba(32, 34, 37, 0.7) 0%, rgba(47, 49, 54, 0.7) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, rgba(32, 34, 37, 0.8) 0%, rgba(47, 49, 54, 0.8) 100%);
+        }
+
+        .event-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .event-header iconify-icon {
+            font-size: 24px;
+            color: #2ECC71;
+            padding: 8px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover .event-header iconify-icon {
+            transform: scale(1.1);
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        .event-type {
+            font-size: 12px;
+            color: #2ECC71;
+            background: rgba(46, 204, 113, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Styles des cartes de jeux */
+        .game-card {
+            background: linear-gradient(135deg, rgba(32, 34, 37, 0.7) 0%, rgba(47, 49, 54, 0.7) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, rgba(32, 34, 37, 0.8) 0%, rgba(47, 49, 54, 0.8) 100%);
+        }
+
+        .game-info h3 {
+            font-size: 18px;
+            color: #fff;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-info h3::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 24px;
+            background: #2ECC71;
+            border-radius: 2px;
+        }
+
+        .platform-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #2ECC71;
+            background: rgba(46, 204, 113, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .platform-tag iconify-icon {
+            font-size: 14px;
+        }
+
+        .progress-info {
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #2ECC71 0%, #27AE60 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-info span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Styles pour la section d'activité récente */
+        .recent-activity {
+            background: linear-gradient(135deg, rgba(32, 34, 37, 0.7) 0%, rgba(47, 49, 54, 0.7) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .recent-activity h2 {
+            font-size: 18px;
+            color: #fff;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recent-activity h2::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 24px;
+            background: #2ECC71;
+            border-radius: 2px;
+        }
+
+        .activity-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .activity-item:hover {
+            transform: translateX(4px);
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .activity-icon iconify-icon {
+            font-size: 24px;
+            color: #2ECC71;
+        }
+
+        .activity-content {
+            flex-grow: 1;
+        }
+
+        .activity-content p {
+            margin: 0;
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .activity-content strong {
+            color: #2ECC71;
+            font-weight: 600;
+        }
+
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .activity-detail {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .activity-badge {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-achievement {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .badge-new {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        /* Styles pour la liste d'amis */
+        .friends-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .friend-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateX(4px);
+        }
+
+        .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .friend-avatar iconify-icon {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .friend-info {
+            flex-grow: 1;
+        }
+
+        .friend-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .friend-activity {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .friend-activity iconify-icon {
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .status-online {
+            color: #2ECC71;
+        }
+
+        .status-idle {
+            color: #FEE75C;
+        }
+
+        .status-dnd {
+            color: #ED4245;
+        }
+
+        .status-streaming {
+            color: #A35BCD;
+        }
+
+        /* Styles pour le feed social */
+        .social-feed {
+            background: linear-gradient(135deg, rgba(32, 34, 37, 0.7) 0%, rgba(47, 49, 54, 0.7) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .social-feed h2 {
+            font-size: 18px;
+            color: #fff;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-feed h2::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 24px;
+            background: #2ECC71;
+            border-radius: 2px;
+        }
+
+        .feed-post {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feed-post:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post-avatar iconify-icon {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .post-meta {
+            flex-grow: 1;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .post-content {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .post-game {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #2ECC71;
+            margin-bottom: 12px;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.6);
+            background: none;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+        }
+
+        .action-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.liked {
+            color: #ED4245;
+        }
+
+        .action-btn iconify-icon {
+            font-size: 18px;
+        }
+
+        .achievement-card {
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .achievement-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(46, 204, 113, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .achievement-icon iconify-icon {
+            font-size: 28px;
+            color: #2ECC71;
+        }
+
+        .achievement-info h4 {
+            color: #fff;
+            margin: 0 0 4px 0;
+            font-size: 14px;
+        }
+
+        .achievement-info p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 12px;
+        }
+
+        /* Styles pour les événements à venir */
+        .upcoming-events {
+            margin-top: 24px;
+        }
+
+        .upcoming-events h3 {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .event-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+
+        .event-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .event-icon iconify-icon {
+            font-size: 24px;
+            color: #2ECC71;
+        }
+
+        .event-info {
+            flex-grow: 1;
+        }
+
+        .event-name {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .event-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .event-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .event-type-tag {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .event-type-tag.tournament {
+            background: rgba(237, 66, 69, 0.1);
+            color: #ED4245;
+        }
+
+        .event-type-tag.community {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .event-type-tag.challenge {
+            background: rgba(254, 231, 92, 0.1);
+            color: #FEE75C;
+        }
+
+        /* Mise à jour des couleurs primaires */
+        .nav-item.active {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .nav-item:hover {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .btn {
+            background: #2ECC71;
+            color: #fff;
+        }
+
+        .btn:hover {
+            background: #27AE60;
+        }
+
+        .friend-avatar {
+            background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+        }
+
+        .post-game {
+            color: #2ECC71;
+        }
+
+        .achievement-card {
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .achievement-icon {
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        .achievement-icon iconify-icon {
+            color: #2ECC71;
+        }
+
+        .event-icon {
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .event-icon iconify-icon {
+            color: #2ECC71;
+        }
+
+        .event-type-tag {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .platform-tag {
+            color: #2ECC71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .progress {
+            background: linear-gradient(90deg, #2ECC71 0%, #27AE60 100%);
+        }
+
+        .social-feed h2::before,
+        .recent-activity h2::before,
+        .game-info h3::before {
+            background: #2ECC71;
+        }
+
+        .activity-icon {
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .activity-icon iconify-icon {
+            color: #2ECC71;
+        }
+
+        .activity-content strong {
+            color: #2ECC71;
+        }
+
+        .badge-new {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .stat-card:hover {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0.1) 100%);
+        }
+
+        .stat-card iconify-icon {
+            color: #2ECC71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .stat-card:hover iconify-icon {
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        /* Mise à jour des couleurs de statut */
+        .status-online {
+            color: #2ECC71;
+        }
+
+        /* Mise à jour des badges et tags spéciaux */
+        .badge-achievement {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+
+        .event-type-tag.community {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ECC71;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="title-bar">
+            <div class="title-bar-content">
+                <iconify-icon icon="mdi:gamepad-variant"></iconify-icon>
+            <h1>Hubscord</h1>
+            </div>
+            <div class="window-controls">
+                <button class="window-control minimize" id="minimizeBtn">
+                    <iconify-icon icon="mdi:window-minimize"></iconify-icon>
+                </button>
+                <button class="window-control maximize" id="maximizeBtn">
+                    <iconify-icon icon="mdi:window-maximize"></iconify-icon>
+                </button>
+                <button class="window-control close" id="closeBtn">
+                    <iconify-icon icon="mdi:window-close"></iconify-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="app-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="user-profile">
+                    <div class="avatar">
+                        <iconify-icon icon="mdi:account-circle" width="48"></iconify-icon>
+                    </div>
+                    <div class="user-info">
+                        <h3 class="username">Username</h3>
+                        <span class="status">En ligne</span>
+                    </div>
+                </div>
+
+                <nav class="main-nav">
+                    <a href="#" class="nav-item active">
+                        <iconify-icon icon="mdi:view-dashboard"></iconify-icon>
+                        Tableau de bord
+                    </a>
+                    <a href="#" class="nav-item">
+                        <iconify-icon icon="mdi:library-shelves"></iconify-icon>
+                        Ma Collection
+                    </a>
+                    <a href="#" class="nav-item">
+                        <iconify-icon icon="mdi:trophy-variant"></iconify-icon>
+                        Succès
+                    </a>
+                    <a href="#" class="nav-item">
+                        <iconify-icon icon="mdi:calendar-star"></iconify-icon>
+                        Événements
+                    </a>
+                    <a href="#" class="nav-item">
+                        <iconify-icon icon="mdi:tournament"></iconify-icon>
+                        Tournois
+                    </a>
+            </nav>
+
+                <div class="overlay-control">
+                    <div class="overlay-header">
+                        <h4>Overlay</h4>
+                        <button class="toggle-overlay">
+                            <iconify-icon icon="mdi:eye"></iconify-icon>
+                        </button>
+                    </div>
+                    <div class="shortcut-control">
+                        <div class="shortcut-display">
+                            <iconify-icon icon="mdi:keyboard"></iconify-icon>
+                            <span class="shortcut-text">CTRL + X</span>
+                        </div>
+                        <button class="edit-shortcut" title="Modifier le raccourci">
+                            <iconify-icon icon="mdi:pencil"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <header class="content-header">
+                    <h1>Tableau de bord</h1>
+                    <div class="header-actions">
+                        <button class="btn">
+                            <iconify-icon icon="mdi:plus"></iconify-icon>
+                            Ajouter un jeu
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Stats Overview -->
+                <section class="stats-overview">
+                    <div class="stat-card">
+                        <iconify-icon icon="mdi:gamepad-variant-outline"></iconify-icon>
+                        <div class="stat-info">
+                            <span class="stat-value">42</span>
+                            <span class="stat-label">Jeux</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <iconify-icon icon="mdi:trophy-outline"></iconify-icon>
+                        <div class="stat-info">
+                            <span class="stat-value">567</span>
+                            <span class="stat-label">Succès débloqués</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <iconify-icon icon="mdi:calendar-star-outline"></iconify-icon>
+                        <div class="stat-info">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Événements à venir</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="recent-activity">
+                    <h2>Activité récente</h2>
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <iconify-icon icon="mdi:trophy-award"></iconify-icon>
+                            </div>
+                            <div class="activity-content">
+                                <p>Succès débloqué dans <strong>Elden Ring</strong></p>
+                                <div class="activity-meta">
+                                    <span class="activity-badge badge-achievement">
+                                        <iconify-icon icon="mdi:trophy"></iconify-icon>
+                                        Maître des Armes
+                                    </span>
+                                    <span class="activity-detail">
+                                        <iconify-icon icon="mdi:clock-outline"></iconify-icon>
+                                        Il y a 2h
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <iconify-icon icon="mdi:plus-circle"></iconify-icon>
+                            </div>
+                            <div class="activity-content">
+                                <p>Nouveau jeu ajouté à la collection</p>
+                                <div class="activity-meta">
+                                    <span class="activity-badge badge-new">
+                                        <iconify-icon icon="mdi:gamepad-variant"></iconify-icon>
+                                        Baldur's Gate 3
+                                    </span>
+                                    <span class="activity-detail">
+                                        <iconify-icon icon="mdi:calendar-outline"></iconify-icon>
+                                        Il y a 1j
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <iconify-icon icon="mdi:sword-cross"></iconify-icon>
+                            </div>
+                            <div class="activity-content">
+                                <p>Participation à un tournoi de <strong>Street Fighter 6</strong></p>
+                                <div class="activity-meta">
+                                    <span class="activity-badge badge-new">
+                                        <iconify-icon icon="mdi:tournament"></iconify-icon>
+                                        Top 8
+                                    </span>
+                                    <span class="activity-detail">
+                                        <iconify-icon icon="mdi:calendar-outline"></iconify-icon>
+                                        Il y a 2j
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Current Events -->
+                <section class="current-events">
+                    <h2>Événements en cours</h2>
+                    <div class="events-grid">
+                        <div class="event-card">
+                            <div class="event-header">
+                                <iconify-icon icon="mdi:sword-cross"></iconify-icon>
+                                <span class="event-type">Tournoi</span>
+                            </div>
+                            <h3>Street Fighter 6 Championship</h3>
+                            <p>Tournoi communautaire - 32 participants</p>
+                            <div class="event-footer">
+                                <span class="event-date">
+                                    <iconify-icon icon="mdi:calendar-clock-outline"></iconify-icon>
+                                    Ce weekend
+                                </span>
+                                <button class="btn-secondary">Participer</button>
+                            </div>
+                        </div>
+                        <div class="event-card">
+                            <div class="event-header">
+                                <iconify-icon icon="mdi:target"></iconify-icon>
+                                <span class="event-type">Défi</span>
+                            </div>
+                            <h3>Marathon Speedrun</h3>
+                            <p>Défi communautaire - Dark Souls 3</p>
+                            <div class="event-footer">
+                                <span class="event-date">
+                                    <iconify-icon icon="mdi:timer-outline"></iconify-icon>
+                                    5 jours restants
+                                </span>
+                                <button class="btn-secondary">En savoir plus</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Social Feed -->
+                <section class="social-feed">
+                    <h2>Activité des amis</h2>
+                    
+                    <!-- Post avec screenshot -->
+                    <div class="feed-post">
+                        <div class="post-header">
+                            <div class="post-avatar">
+                                <iconify-icon icon="mdi:sword-cross"></iconify-icon>
+                            </div>
+                            <div class="post-meta">
+                                <div class="post-author">LeBoucher2Baldur</div>
+                                <div class="post-time">Il y a 30 minutes</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Premier boss down en mode Honneur ! 🎮🔥
+                        </div>
+                        <div class="post-game">
+                            <iconify-icon icon="mdi:gamepad-variant"></iconify-icon>
+                            Baldur's Gate 3
+                        </div>
+                        <img src="https://cdn.discordapp.com/attachments/123456789/bg3-screenshot.jpg" alt="Screenshot Baldur's Gate 3" class="post-image">
+                        <div class="post-actions">
+                            <button class="action-btn liked">
+                                <iconify-icon icon="mdi:heart"></iconify-icon>
+                                24 J'aime
+                            </button>
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:comment-outline"></iconify-icon>
+                                8 Commentaires
+                            </button>
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:share-variant-outline"></iconify-icon>
+                                Partager
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Post avec succès -->
+                    <div class="feed-post">
+                        <div class="post-header">
+                            <div class="post-avatar">
+                                <iconify-icon icon="mdi:robot-excited"></iconify-icon>
+                            </div>
+                            <div class="post-meta">
+                                <div class="post-author">NoobMaster69</div>
+                                <div class="post-time">Il y a 2 heures</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Enfin ! Après 50 essais... 💪
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-icon">
+                                <iconify-icon icon="mdi:trophy-award"></iconify-icon>
+                            </div>
+                            <div class="achievement-info">
+                                <h4>Git Gud</h4>
+                                <p>Vaincre Malenia sans subir de dégâts</p>
+                            </div>
+                        </div>
+                        <div class="post-game">
+                            <iconify-icon icon="mdi:gamepad-variant"></iconify-icon>
+                            Elden Ring
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:heart-outline"></iconify-icon>
+                                42 J'aime
+                            </button>
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:comment-outline"></iconify-icon>
+                                15 Commentaires
+                            </button>
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:share-variant-outline"></iconify-icon>
+                                Partager
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Post simple -->
+                    <div class="feed-post">
+                        <div class="post-header">
+                            <div class="post-avatar">
+                                <iconify-icon icon="mdi:mushroom"></iconify-icon>
+                            </div>
+                            <div class="post-meta">
+                                <div class="post-author">ChampignonTueur</div>
+                                <div class="post-time">Il y a 3 heures</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Nouveau record personnel sur le dernier niveau ! 🍄 
+                            Score : 1,234,567 points
+                        </div>
+                        <div class="post-game">
+                            <iconify-icon icon="mdi:gamepad-variant"></iconify-icon>
+                            Super Mario Bros. Wonder
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:heart-outline"></iconify-icon>
+                                18 J'aime
+                            </button>
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:comment-outline"></iconify-icon>
+                                5 Commentaires
+                            </button>
+                            <button class="action-btn">
+                                <iconify-icon icon="mdi:share-variant-outline"></iconify-icon>
+                                Partager
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Collection Preview -->
+                <section class="collection-preview">
+                    <div class="section-header">
+                        <h2>Ma Collection</h2>
+                        <a href="#" class="view-all">Voir tout</a>
+                    </div>
+                    <div class="games-grid">
+                        <div class="game-card">
+                            <div class="game-info">
+                                <h3>Elden Ring</h3>
+                                <div class="platform-tag">
+                                    <iconify-icon icon="mdi:steam"></iconify-icon>
+                                    Steam
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 75%"></div>
+                                    </div>
+                                    <span>38/50 succès</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-card">
+                            <div class="game-info">
+                                <h3>Baldur's Gate 3</h3>
+                                <div class="platform-tag">
+                                    <iconify-icon icon="mdi:steam"></iconify-icon>
+                                    Steam
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 45%"></div>
+                                    </div>
+                                    <span>23/52 succès</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-card">
+                            <div class="game-info">
+                                <h3>Halo Infinite</h3>
+                                <div class="platform-tag">
+                                    <iconify-icon icon="mdi:microsoft-xbox"></iconify-icon>
+                                    Xbox
+                                </div>
+                                <div class="progress-info">
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 60%"></div>
+                                    </div>
+                                    <span>30/50 succès</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Community Sidebar -->
+            <aside class="community-sidebar">
+                <div class="community-header">
+                    <h2>Communauté</h2>
+                    <button class="btn-icon">
+                        <iconify-icon icon="mdi:cog"></iconify-icon>
+                    </button>
+                </div>
+
+                <div class="friends-online">
+                    <h3>Amis en ligne (5)</h3>
+                    <div class="friends-list">
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                <iconify-icon icon="mdi:robot-excited"></iconify-icon>
+                            </div>
+                            <div class="friend-info">
+                                <span class="friend-name">NoobMaster69</span>
+                                <span class="friend-activity">
+                                    <iconify-icon class="status-online" icon="mdi:circle"></iconify-icon>
+                                    Joue à Elden Ring
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                <iconify-icon icon="mdi:cat"></iconify-icon>
+                            </div>
+                            <div class="friend-info">
+                                <span class="friend-name">ChatQuiDort</span>
+                                <span class="friend-activity">
+                                    <iconify-icon class="status-idle" icon="mdi:circle"></iconify-icon>
+                                    AFK - Sieste tactique
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                <iconify-icon icon="mdi:sword-cross"></iconify-icon>
+                            </div>
+                            <div class="friend-info">
+                                <span class="friend-name">LeBoucher2Baldur</span>
+                                <span class="friend-activity">
+                                    <iconify-icon class="status-streaming" icon="mdi:circle"></iconify-icon>
+                                    Stream Baldur's Gate 3
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                <iconify-icon icon="mdi:mushroom"></iconify-icon>
+                            </div>
+                            <div class="friend-info">
+                                <span class="friend-name">ChampignonTueur</span>
+                                <span class="friend-activity">
+                                    <iconify-icon class="status-online" icon="mdi:circle"></iconify-icon>
+                                    Joue à Super Mario Bros
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                <iconify-icon icon="mdi:controller-classic"></iconify-icon>
+                            </div>
+                            <div class="friend-info">
+                                <span class="friend-name">RageQuitPro</span>
+                                <span class="friend-activity">
+                                    <iconify-icon class="status-dnd" icon="mdi:circle"></iconify-icon>
+                                    Ne pas déranger
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upcoming-events">
+                    <h3>Prochains événements</h3>
+                    <div class="event-list">
+                        <div class="event-item">
+                            <div class="event-icon">
+                                <iconify-icon icon="mdi:sword-cross"></iconify-icon>
+                            </div>
+                            <div class="event-info">
+                                <span class="event-name">Tournoi Street Fighter 6</span>
+                                <div class="event-meta">
+                                    <span class="event-time">
+                                        <iconify-icon icon="mdi:calendar-clock"></iconify-icon>
+                                        Demain - 20:00
+                                    </span>
+                                    <span class="event-type-tag tournament">
+                                        <iconify-icon icon="mdi:trophy"></iconify-icon>
+                                        Tournoi
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event-item">
+                            <div class="event-icon">
+                                <iconify-icon icon="mdi:rocket-launch"></iconify-icon>
+                            </div>
+                            <div class="event-info">
+                                <span class="event-name">Soirée Among Us</span>
+                                <div class="event-meta">
+                                    <span class="event-time">
+                                        <iconify-icon icon="mdi:calendar-clock"></iconify-icon>
+                                        Vendredi - 21:00
+                                    </span>
+                                    <span class="event-type-tag community">
+                                        <iconify-icon icon="mdi:account-group"></iconify-icon>
+                                        Communauté
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event-item">
+                            <div class="event-icon">
+                                <iconify-icon icon="mdi:target"></iconify-icon>
+                            </div>
+                            <div class="event-info">
+                                <span class="event-name">Speedrun Challenge - Dark Souls</span>
+                                <div class="event-meta">
+                                    <span class="event-time">
+                                        <iconify-icon icon="mdi:calendar-clock"></iconify-icon>
+                                        Samedi - 15:00
+                                    </span>
+                                    <span class="event-type-tag challenge">
+                                        <iconify-icon icon="mdi:lightning-bolt"></iconify-icon>
+                                        Défi
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <script src="renderer.js"></script>
+</body>
+</html> 

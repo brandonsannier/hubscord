@@ -1,0 +1,94 @@
+// Variables
+$primary-color: #2ECC71;
+$text-color: #FFFFFF;
+$background-color: rgba(32, 34, 37, 0.85);
+
+// Reset
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    background: transparent !important;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: $text-color;
+    overflow: hidden;
+}
+
+// Overlay Container
+.overlay-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    pointer-events: none;
+}
+
+.overlay-content {
+    margin: 16px;
+    pointer-events: auto;
+    background: $background-color;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+// Game Status
+.game-status {
+    padding: 12px;
+
+    .game-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-color;
+    }
+}
+
+// Achievements Section
+.achievements-section {
+    padding: 0 12px 12px;
+}
+
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.achievement-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px;
+    border-radius: 4px;
+
+    .achievement-info {
+        .achievement-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+
+            .progress {
+                height: 100%;
+                background: $primary-color;
+                transition: width 0.3s ease;
+            }
+
+            .progress-text {
+                position: absolute;
+                right: 0;
+                top: -18px;
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.7);
+            }
+        }
+    }
+} 
