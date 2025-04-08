@@ -1,0 +1,40 @@
+// Grid System
+.grid {
+    display: grid;
+    gap: spacing('md');
+}
+
+// Grid Columns
+.grid-2 {
+    @extend .grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    @extend .grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+    @extend .grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+// Responsive Grid
+@include respond-to('sm') {
+    .grid-sm-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@include respond-to('md') {
+    .grid-md-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@include respond-to('lg') {
+    .grid-lg-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+} 

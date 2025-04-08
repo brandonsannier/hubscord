@@ -1,0 +1,65 @@
+// Container de base pour les fenêtres
+.window-container {
+    width: 100%;
+    height: 100%;
+    @include flex-column;
+    overflow: hidden;
+}
+
+// En-tête de fenêtre
+.window-header {
+    @include flex-between;
+    padding-left: spacing('md');
+    background: overlay('header');
+    border-bottom: 1px solid theme('border');
+    -webkit-app-region: drag;
+
+    .window-title {
+        @include flex-center;
+        gap: spacing('sm');
+        font-size: 14px;
+        font-weight: 600;
+        color: theme('text', 'primary');
+
+        iconify-icon {
+            font-size: 18px;
+            color: theme('primary');
+        }
+    }
+    .window-controls {
+        display: flex;
+        -webkit-app-region: no-drag;
+
+        .window-control {
+            width: 40px;
+            height: 39px;
+            @include flex-center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: $text-muted;
+            transition: all 0.2s ease;
+
+            iconify-icon {
+                font-size: 18px;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: $text-color;
+            }
+
+            &.close:hover {
+                background: $error-color;
+            }
+        }
+    }
+}
+
+// Contenu de la fenêtre
+.window-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}

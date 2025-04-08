@@ -1,0 +1,120 @@
+// Badge de base
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: spacing('xs');
+    padding: spacing('xs') spacing('sm');
+    border-radius: radius('sm');
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+// Badges de statut
+.status-badge {
+    @extend .badge;
+
+    &.badge-achievement {
+        background: rgba(theme('primary'), 0.1);
+        color: theme('primary');
+    }
+
+    &.badge-new {
+        background: rgba(theme('primary'), 0.1);
+        color: theme('primary');
+    }
+}
+
+// Points de statut
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: spacing('xs');
+}
+
+.status-online {
+    color: theme('status', 'success');
+}
+
+.status-idle {
+    color: theme('status', 'warning');
+}
+
+.status-dnd {
+    color: theme('status', 'error');
+}
+
+.status-streaming {
+    color: theme('status', 'streaming');
+}
+
+// Tags de type d'événement
+.event-type-tag {
+    font-size: 11px;
+    padding: spacing('xs') spacing('sm');
+    border-radius: radius('sm');
+    background: rgba(theme('primary'), 0.1);
+    color: theme('primary');
+    display: flex;
+    align-items: center;
+    gap: spacing('xs');
+
+    &.tournament {
+        background: rgba(theme('status', 'error'), 0.1);
+        color: theme('status', 'error');
+    }
+
+    &.community {
+        background: rgba(theme('primary'), 0.1);
+        color: theme('primary');
+    }
+
+    &.challenge {
+        background: rgba(theme('status', 'warning'), 0.1);
+        color: theme('status', 'warning');
+    }
+}
+
+// Badges d'activité
+.activity-badge {
+    font-size: 11px;
+    padding: spacing('xs') spacing('sm');
+    border-radius: radius('sm');
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: spacing('xs');
+
+    &.badge-achievement {
+        background: rgba(theme('primary'), 0.1);
+        color: theme('primary');
+    }
+
+    &.badge-new {
+        background: rgba(theme('primary'), 0.1);
+        color: theme('primary');
+    }
+
+    &.important {
+        background: rgba(theme('status', 'error'), 0.1);
+        color: theme('status', 'error');
+    }
+}
+
+// Badges de notification
+.notification-badge {
+    @extend .badge;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    min-width: 18px;
+    height: 18px;
+    padding: 0 spacing('xs');
+    background: theme('status', 'error');
+    color: theme('text', 'primary');
+    font-size: 10px;
+    justify-content: center;
+} 

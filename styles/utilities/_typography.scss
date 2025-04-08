@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+// Tailles de texte
+.text {
+    &-xs { font-size: 0.75rem; }
+    &-sm { font-size: 0.875rem; }
+    &-md { font-size: 1rem; }
+    &-lg { font-size: 1.25rem; }
+    &-xl { font-size: 1.5rem; }
+    &-2xl { font-size: 2rem; }
+}
+
+// Poids de police
+.font {
+    &-light { font-weight: 300; }
+    &-normal { font-weight: 400; }
+    &-medium { font-weight: 500; }
+    &-semibold { font-weight: 600; }
+    &-bold { font-weight: 700; }
+}
+
+// Alignement
+.text {
+    &-left { text-align: left; }
+    &-center { text-align: center; }
+    &-right { text-align: right; }
+}
+
+// Couleurs
+.text {
+    &-primary { color: theme('primary'); }
+    &-secondary { color: theme('secondary'); }
+    &-muted { color: theme('text', 'muted'); }
+    &-success { color: theme('status', 'success'); }
+    &-warning { color: theme('status', 'warning'); }
+    &-error { color: theme('status', 'error'); }
+}
+
+// Transformations
+.text {
+    &-uppercase { text-transform: uppercase; }
+    &-lowercase { text-transform: lowercase; }
+    &-capitalize { text-transform: capitalize; }
+}
+
+// Décoration
+.text {
+    &-underline { text-decoration: underline; }
+    &-line-through { text-decoration: line-through; }
+    &-no-underline { text-decoration: none; }
+}
+
+// Ellipsis et débordement
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-truncate {
+    @extend .text-ellipsis;
+}
+
+.text-wrap {
+    white-space: normal;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.text-break {
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+// Line height
+.leading {
+    &-none { line-height: 1; }
+    &-tight { line-height: 1.25; }
+    &-normal { line-height: 1.5; }
+    &-loose { line-height: 2; }
+} 

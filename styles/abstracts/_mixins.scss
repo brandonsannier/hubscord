@@ -1,0 +1,230 @@
+// Layout
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    flex-wrap: $wrap;
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin grid($columns: 1, $gap: spacing('md')) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+}
+
+// Composants
+@mixin card {
+    background: overlay('card', 'default');
+    border-radius: radius('md');
+    transition: all transition('fast');
+    padding: spacing('md');
+
+    &:hover {
+        background: overlay('card', 'hover');
+        transform: translateY(-2px);
+        box-shadow: shadow('md');
+    }
+}
+
+@mixin button($type: 'primary') {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    @if $type == 'primary' {
+        background: $primary-color;
+        color: $text-color;
+
+        &:hover {
+            background: darken($primary-color, 5%);
+        }
+    } @else if $type == 'secondary' {
+        background: rgba(255, 255, 255, 0.1);
+        color: $text-color;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+    }
+}
+
+// Typographie
+@mixin text-style($size: 'md', $weight: normal, $color: theme('text', 'primary')) {
+    color: $color;
+    
+    @if $size == 'sm' {
+        font-size: 0.875rem;
+    } @else if $size == 'md' {
+        font-size: 1rem;
+    } @else if $size == 'lg' {
+        font-size: 1.25rem;
+    }
+    
+    font-weight: $weight;
+}
+
+@mixin text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Utilitaires
+@mixin scrollbar {
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(theme('primary'), 0.3);
+        border-radius: 2px;
+
+        &:hover {
+            background: rgba(theme('primary'), 0.5);
+        }
+    }
+}
+
+// Media Queries
+@mixin respond-to($breakpoint) {
+    @media (min-width: breakpoint($breakpoint)) {
+        @content;
+    }
+}
+
+// Mixins de carte
+@mixin card-base {
+    background: theme('background', 'darker');
+    padding: spacing('md');
+    border-radius: radius('md');
+}
+
+@mixin card-hover {
+    transition: all transition('fast');
+    &:hover {
+        transform: translateY(-2px);
+        background: lighten(theme('background', 'darker'), 3%);
+    }
+}
+
+@mixin gradient-card {
+    background: linear-gradient(135deg, rgba(32, 34, 37, 0.7) 0%, rgba(47, 49, 54, 0.7) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius-lg;
+    transition: all $transition-normal;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+        background: linear-gradient(135deg, rgba(32, 34, 37, 0.8) 0%, rgba(47, 49, 54, 0.8) 100%);
+    }
+}
+
+// Mixins de typographie
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin text-muted {
+    font-size: 13px;
+    color: theme('text', 'muted');
+}
+
+@mixin text-small {
+    font-size: 12px;
+    color: theme('text', 'muted');
+}
+
+// Mixins de responsive
+@mixin mobile {
+    @media (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 769px) and (max-width: 1024px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 1025px) {
+        @content;
+    }
+}
+
+// Mixins de grille
+@mixin grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing('md');
+}
+
+@mixin grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: spacing('md');
+}
+
+// Mixins d'icône
+@mixin icon-large {
+    font-size: 24px;
+    color: theme('primary');
+}
+
+@mixin icon-medium {
+    font-size: 20px;
+    color: theme('primary');
+}
+
+@mixin icon-small {
+    font-size: 16px;
+    color: theme('primary');
+}
+
+// Mixins de typographie
+@mixin heading-1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: spacing('lg');
+}
+
+@mixin heading-2 {
+    font-size: 18px;
+    margin-bottom: spacing('md');
+}
+
+@mixin heading-3 {
+    font-size: 16px;
+    margin-bottom: spacing('xs');
+} 

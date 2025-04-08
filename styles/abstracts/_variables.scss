@@ -1,0 +1,111 @@
+// Variables de couleur
+$primary-color: #2ECC71;
+$secondary-color: #99AAB5;
+$background-color: #36393F;
+$darker-background: #2F3136;
+$sidebar-color: #202225;
+$text-color: #FFFFFF;
+$text-muted: rgba(255, 255, 255, 0.7);
+$border-color: rgba(255, 255, 255, 0.1);
+$success-color: #43B581;
+$warning-color: #FAA61A;
+$error-color: #F04747;
+$streaming-color: #A35BCD;
+
+// Variables de police
+$font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+$font-size-base: 16px;
+$font-size-sm: 14px;
+$font-size-xs: 12px;
+$font-size-lg: 18px;
+$font-size-xl: 24px;
+
+// Variables d'espacement
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Variables de rayon de bordure
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Variables de transition
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.4s ease;
+
+// Variables d'ombre
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+// Thème
+$theme: (
+    'primary': #2ECC71,
+    'secondary': #99AAB5,
+    'background': (
+        'main': #36393F,
+        'darker': #2F3136,
+        'sidebar': #202225
+    ),
+    'text': (
+        'primary': #FFFFFF,
+        'muted': rgba(255, 255, 255, 0.7)
+    ),
+    'border': rgba(255, 255, 255, 0.1),
+    'status': (
+        'success': #43B581,
+        'warning': #FAA61A,
+        'error': #F04747
+    )
+);
+
+// Overlay
+$overlay: (
+    'background': rgba(32, 34, 37, 0.95),
+    'header': rgba(32, 34, 37, 0.98),
+    'card': (
+        'default': rgba(47, 49, 54, 0.4),
+        'hover': rgba(47, 49, 54, 0.6)
+    )
+);
+
+// Layout
+$spacing: (
+    'xs': 4px,
+    'sm': 8px,
+    'md': 12px,
+    'lg': 16px,
+    'xl': 24px
+);
+
+$border-radius: (
+    'sm': 4px,
+    'md': 8px,
+    'lg': 12px
+);
+
+// Animations
+$transition: (
+    'fast': 0.2s ease,
+    'normal': 0.3s ease,
+    'slow': 0.4s ease
+);
+
+// Shadows
+$shadow: (
+    'sm': 0 2px 4px rgba(0, 0, 0, 0.1),
+    'md': 0 4px 8px rgba(0, 0, 0, 0.1),
+    'lg': 0 8px 16px rgba(0, 0, 0, 0.1)
+);
+
+// Breakpoints
+$breakpoints: (
+    'sm': 576px,
+    'md': 768px,
+    'lg': 992px,
+    'xl': 1200px
+); 

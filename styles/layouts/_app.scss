@@ -1,0 +1,104 @@
+// Layout principal
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+// Contenu principal
+.app-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    overflow: hidden;
+}
+
+// Contenu principal
+.main-content {
+    padding: $spacing-lg;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: $border-radius-sm;
+    }
+}
+
+// En-tête du contenu
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+
+    h1 {
+        font-size: $font-size-xl;
+        font-weight: 700;
+    }
+}
+
+// Grille de statistiques
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+}
+
+// Grille d'événements
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+}
+
+// Grille de jeux
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+}
+
+// Navigation des plateformes
+.platforms-nav {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+}
+
+// Aperçu de collection
+.collection-preview {
+    background: $darker-background;
+    padding: $spacing-md;
+    border-radius: $border-radius-md;
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-md;
+
+        h2 {
+            font-size: $font-size-lg;
+        }
+
+        .view-all {
+            color: $primary-color;
+            text-decoration: none;
+            font-size: $font-size-sm;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+} 

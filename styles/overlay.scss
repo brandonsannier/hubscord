@@ -1,7 +1,26 @@
-// Variables
-$primary-color: #2ECC71;
-$text-color: #FFFFFF;
-$background-color: rgba(32, 34, 37, 0.85);
+// Abstracts
+@import 'abstracts/variables';
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+
+// Base
+@import 'base/reset';
+
+// Layouts
+@import 'layouts/window';
+@import 'layouts/grid';
+@import 'layouts/navigation';
+
+// Components
+@import 'components/buttons';
+@import 'components/cards';
+@import 'components/forms';
+@import 'components/status';
+
+// Utilities
+@import 'utilities/spacing';
+@import 'utilities/typography';
+@import 'utilities/visibility';
 
 // Reset
 * {
@@ -11,84 +30,226 @@ $background-color: rgba(32, 34, 37, 0.85);
 }
 
 html, body {
-    background: transparent !important;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: $text-color;
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-// Overlay Container
+body {
+    border: none;
+}
+
+// Styles spécifiques à l'overlay
 .overlay-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 280px;
-    pointer-events: none;
+    @extend .window-container;
+    background: overlay('background');
+    border-radius: radius('md');
+    backdrop-filter: blur(10px);
+    box-shadow: shadow('md');
 }
 
-.overlay-content {
-    margin: 16px;
-    pointer-events: auto;
-    background: $background-color;
-    border-radius: 8px;
+// Game Header
+.game-header {
+    @extend .window-header;
+}
+
+.game-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: spacing('sm');
+    @extend .text-primary;
+}
+
+.game-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.game-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: spacing('xs');
+    @extend .text-ellipsis;
+}
+
+.game-time {
+    @extend .text-muted;
+    font-size: 11px;
+}
+
+.game-status {
+    @include flex-center;
+    gap: spacing('xs');
+    font-size: 11px;
+    color: theme('status', 'success');
+    margin-left: spacing('sm');
+    padding-left: spacing('sm');
+    border-left: 1px solid theme('border');
+
+    &.not-detected {
+        @extend .text-muted;
+    }
+
+    iconify-icon {
+        font-size: 14px;
+    }
+}
+
+// Content Area
+.content-area {
+    @extend .window-content;
+}
+
+// Achievements Tabs
+.achievements-tabs {
+    @include flex-between;
+    gap: spacing('xs');
+    padding: spacing('sm') spacing('md');
+    background: overlay('header');
+    border-bottom: 1px solid theme('border');
+}
+
+.tab {
+    padding: spacing('xs') spacing('sm');
+    border-radius: radius('sm');
+    font-size: 12px;
+    cursor: pointer;
+    background: overlay('card', 'default');
+    @extend .text-muted;
+    transition: all transition('fast');
+    -webkit-app-region: no-drag;
+    user-select: none;
+
+    &:hover {
+        background: overlay('card', 'hover');
+    }
+
+    &.active {
+        background: theme('primary');
+        color: theme('text', 'primary');
+    }
+}
+
+// Achievements Content
+.achievements-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: spacing('md');
+}
+
+.section-header {
+    @include flex-center;
+    margin-bottom: spacing('md');
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(theme('text', 'primary'), 0.9);
+
+    iconify-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: spacing('xs');
+        @extend .text-primary;
+    }
+}
+
+// Achievement Item
+.achievement {
+    @extend .card;
+    position: relative;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    user-select: none;
+
+    &:hover {
+        transform: translateX(4px);
+    }
+
+    &.rare .achievement-name::after {
+        content: "★";
+        margin-left: spacing('xs');
+        color: #FFD700;
+    }
+}
+
+.achievement-header {
+    @include flex-center;
+    margin-bottom: spacing('xs');
+}
+
+.achievement-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: spacing('sm');
+    @extend .text-primary;
+}
+
+.achievement-name {
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    @extend .text-ellipsis;
+}
+
+.achievement-desc {
+    @extend .text-muted;
+    font-size: 11px;
+    margin-bottom: spacing('sm');
+    @extend .text-ellipsis;
+}
+
+.achievement-type {
+    @extend .badge;
+    position: absolute;
+    top: spacing('sm');
+    right: spacing('sm');
+    background: rgba(theme('status', 'success'), 0.1);
+    color: theme('status', 'success');
+}
+
+// Progress Bar
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(79, 84, 92, 0.3);
+    border-radius: radius('sm');
     overflow: hidden;
 }
 
-// Game Status
-.game-status {
-    padding: 12px;
-
-    .game-name {
-        font-size: 16px;
-        font-weight: 600;
-        color: $text-color;
-    }
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, theme('primary'), darken(theme('primary'), 10%));
+    border-radius: radius('sm');
+    transition: width transition('normal');
 }
 
-// Achievements Section
-.achievements-section {
-    padding: 0 12px 12px;
+// Stats Section
+.stats-section {
+    margin-top: spacing('lg');
+    padding-top: spacing('md');
+    border-top: 1px solid theme('border');
 }
 
-.achievements-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.stats-grid {
+    @extend .grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
-.achievement-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px;
-    border-radius: 4px;
+.stat-item {
+    @extend .card;
+    text-align: center;
+    -webkit-app-region: no-drag;
+}
 
-    .achievement-info {
-        .achievement-name {
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: rgba(255, 255, 255, 0.9);
-        }
+.stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    @extend .text-primary;
+}
 
-        .progress-bar {
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-
-            .progress {
-                height: 100%;
-                background: $primary-color;
-                transition: width 0.3s ease;
-            }
-
-            .progress-text {
-                position: absolute;
-                right: 0;
-                top: -18px;
-                font-size: 11px;
-                color: rgba(255, 255, 255, 0.7);
-            }
-        }
-    }
-} 
+.stat-label {
+    @extend .text-muted;
+    font-size: 10px;
+    margin-top: spacing('xs');
+}

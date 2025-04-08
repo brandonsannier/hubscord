@@ -1,0 +1,79 @@
+// Visibilité de base
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+// Visibilité responsive
+@each $breakpoint, $value in $breakpoints {
+    @include respond-to($breakpoint) {
+        .hidden-#{$breakpoint} {
+            display: none !important;
+        }
+
+        .visible-#{$breakpoint} {
+            display: block !important;
+        }
+    }
+}
+
+// Opacité
+.opacity {
+    &-0 { opacity: 0; }
+    &-25 { opacity: 0.25; }
+    &-50 { opacity: 0.5; }
+    &-75 { opacity: 0.75; }
+    &-100 { opacity: 1; }
+}
+
+// Visibilité
+.invisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+// Position
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.sticky {
+    position: sticky;
+}
+
+// Z-index
+.z {
+    &-0 { z-index: 0; }
+    &-10 { z-index: 10; }
+    &-20 { z-index: 20; }
+    &-30 { z-index: 30; }
+    &-40 { z-index: 40; }
+    &-50 { z-index: 50; }
+    &-auto { z-index: auto; }
+}
+
+// Overflow
+.overflow {
+    &-auto { overflow: auto; }
+    &-hidden { overflow: hidden; }
+    &-visible { overflow: visible; }
+    &-scroll { overflow: scroll; }
+    &-x-auto { overflow-x: auto; }
+    &-y-auto { overflow-y: auto; }
+    &-x-hidden { overflow-x: hidden; }
+    &-y-hidden { overflow-y: hidden; }
+} 

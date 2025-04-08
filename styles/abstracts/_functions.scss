@@ -1,0 +1,40 @@
+// Fonction pour accéder aux valeurs du thème
+@function theme($key, $subkey: null) {
+    @if $subkey {
+        @return map-get(map-get($theme, $key), $subkey);
+    }
+    @return map-get($theme, $key);
+}
+
+// Fonction pour accéder aux valeurs de l'overlay
+@function overlay($key, $subkey: null) {
+    @if $subkey {
+        @return map-get(map-get($overlay, $key), $subkey);
+    }
+    @return map-get($overlay, $key);
+}
+
+// Fonction pour accéder aux espacements
+@function spacing($key) {
+    @return map-get($spacing, $key);
+}
+
+// Fonction pour accéder aux border-radius
+@function radius($key) {
+    @return map-get($border-radius, $key);
+}
+
+// Fonction pour accéder aux transitions
+@function transition($key) {
+    @return map-get($transition, $key);
+}
+
+// Fonction pour accéder aux ombres
+@function shadow($key) {
+    @return map-get($shadow, $key);
+}
+
+// Fonction pour accéder aux breakpoints
+@function breakpoint($key) {
+    @return map-get($breakpoints, $key);
+} 

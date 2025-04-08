@@ -1,0 +1,62 @@
+// Styles des événements
+.current-events {
+    margin-bottom: spacing('lg');
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: spacing('md');
+    }
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing('md');
+}
+
+.event-card {
+    background: theme('background', 'darker');
+    padding: spacing('md');
+    border-radius: radius('md');
+    @include card-hover;
+
+    .event-header {
+        display: flex;
+        align-items: center;
+        gap: spacing('sm');
+        margin-bottom: spacing('md');
+
+        iconify-icon {
+            color: theme('primary');
+            font-size: 20px;
+        }
+
+        .event-type {
+            font-size: 13px;
+            color: theme('text', 'muted');
+            text-transform: uppercase;
+        }
+    }
+
+    h3 {
+        font-size: 16px;
+        margin-bottom: spacing('xs');
+    }
+
+    p {
+        font-size: 14px;
+        color: theme('text', 'muted');
+        margin-bottom: spacing('md');
+    }
+
+    .event-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .event-date {
+            font-size: 13px;
+            color: theme('text', 'muted');
+        }
+    }
+} 
