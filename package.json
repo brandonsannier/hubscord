@@ -1,6 +1,6 @@
 {
   "name": "hubscord",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Application de suivi de progression de jeux vidéo",
   "author": {
     "name": "Brandon S."
@@ -9,13 +9,15 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --debug",
+    "start:devtools": "electron . --devtools",
     "build": "electron-builder"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
     "active-win": "^9.0.0",
     "electron-localshortcut": "^3.2.1",
-    "electron-store": "^8.1.0"
+    "electron-store": "^8.1.0",
+    "electron-updater": "^6.6.2"
   },
   "devDependencies": {
     "electron": "^35.1.4",
