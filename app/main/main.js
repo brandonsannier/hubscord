@@ -9,12 +9,28 @@ let tray;
 let currentShortcut = 'CommandOrControl+X';
 let registeredShortcut = null;
 let isQuitting = false;
+const isDev = process.argv.includes('--debug');
+const showDevTools = process.argv.includes('--devtools') || isDev;
 
-function createMainWindow() {
+// Fonction pour ouvrir les DevTools
+function openDevTools(window) {
+    try {
+        window.webContents.openDevTools({
+            mode: 'detach',
+            activate: true
+        });
+    } catch (error) {
+        console.error('Erreur lors de l\'ouverture des DevTools:', error);
+    }
+}
+
+// Lors de la création de la fenêtre principale, charger la page d'authentification si nécessaire
+async function createWindow() {
+    // Créer la fenêtre du navigateur principal
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
-        minWidth: 940,
+        minWidth: 800,
         minHeight: 600,
         frame: false,
         icon: path.join(__dirname, '../../assets/icons/256x256.png'),
@@ -27,7 +43,30 @@ function createMainWindow() {
         }
     });
 
-    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+    // Vérifier si l'utilisateur est connecté
+    const userStored = store.get('user');
+    
+    // Si l'utilisateur n'est pas connecté, charger la page d'authentification
+    if (!userStored) {
+        mainWindow.loadFile(path.join(__dirname, '../renderer/auth.html'));
+        
+        // Ouvrir les DevTools pour la page d'authentification
+        if (showDevTools || process.argv.includes('--devtools')) {
+            mainWindow.webContents.on('did-finish-load', () => {
+                openDevTools(mainWindow);
+            });
+        }
+    } else {
+        // Sinon, charger la page principale
+        mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+        
+        // Ouvrir les DevTools pour la page principale
+        if (showDevTools || process.argv.includes('--devtools')) {
+            mainWindow.webContents.on('did-finish-load', () => {
+                openDevTools(mainWindow);
+            });
+        }
+    }
 
     // Gestion de la fermeture
     mainWindow.on('close', (event) => {
@@ -68,6 +107,13 @@ function createOverlayWindow() {
     overlayWindow.setBackgroundColor('#00000000');
     overlayWindow.setIgnoreMouseEvents(false);
     overlayWindow.hide();
+
+    // Ouvrir les DevTools si demandé
+    // if (showDevTools) {
+    //     overlayWindow.webContents.on('did-finish-load', () => {
+    //         openDevTools(overlayWindow);
+    //     });
+    // }
 }
 
 function createTray() {
@@ -164,14 +210,14 @@ ipcMain.on('update-shortcut', (event, newShortcut) => {
 
 // Initialisation de l'application
 app.whenReady().then(() => {
-    createMainWindow();
+    createWindow();
     createOverlayWindow();
     createTray();
     registerShortcut(currentShortcut);
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
-            createMainWindow();
+            createWindow();
             createOverlayWindow();
         }
     });

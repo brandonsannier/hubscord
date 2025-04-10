@@ -1,0 +1,194 @@
+// Styles pour la page d'authentification
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 480px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(theme('text', 'primary'), 0.05);
+    border-radius: radius('md');
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+// Tabs de navigation (Connexion/Inscription)
+.auth-tabs {
+    display: flex;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(theme('text', 'primary'), 0.1);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 1rem;
+    background: none;
+    border: none;
+    color: theme('text', 'muted');
+    font-weight: 500;
+    cursor: pointer;
+    transition: all transition('fast');
+    position: relative;
+
+    &:hover {
+        color: theme('text', 'primary');
+    }
+
+    &.active {
+        color: theme('primary');
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: theme('primary');
+        }
+    }
+}
+
+// Contenu des formulaires
+.auth-content {
+    width: 100%;
+}
+
+.auth-form {
+    display: none;
+    width: 100%;
+
+    &.active {
+        display: block;
+    }
+}
+
+// Extension du bouton pour le plein largeur
+.btn-full {
+    @extend .btn;
+    width: 100%;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+// Options du formulaire (Se souvenir de moi, Mot de passe oublié)
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+    font-size: 14px;
+}
+
+.remember-me, .terms-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    input[type="checkbox"] {
+        accent-color: theme('primary');
+    }
+
+    label {
+        margin-bottom: 0;
+        color: theme('text', 'primary');
+    }
+}
+
+.forgot-password {
+    color: theme('primary');
+    text-decoration: none;
+    transition: all transition('fast');
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+// Diviseur "ou"
+.auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: theme('text', 'muted');
+    
+    &:before, &:after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(theme('text', 'primary'), 0.1);
+    }
+    
+    span {
+        padding: 0 1rem;
+    }
+}
+
+// Boutons d'authentification sociale
+.social-auth {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    button {
+        justify-content: center;
+    }
+}
+
+// Champ de mot de passe avec toggle visibilité
+.password-field {
+    position: relative;
+
+    .password-toggle {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: theme('text', 'muted');
+        cursor: pointer;
+        padding: 0.25rem;
+        
+        &:hover {
+            color: theme('text', 'primary');
+        }
+    }
+}
+
+// Indicateur de force du mot de passe
+.password-strength {
+    margin-top: 0.5rem;
+
+    .strength-meter {
+        display: flex;
+        gap: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .strength-segment {
+        height: 4px;
+        flex: 1;
+        background: rgba(theme('text', 'primary'), 0.1);
+        border-radius: 2px;
+        transition: all transition('fast');
+
+        &.weak {
+            background: theme('status', 'error');
+        }
+
+        &.medium {
+            background: theme('status', 'warning');
+        }
+
+        &.strong {
+            background: theme('status', 'success');
+        }
+    }
+
+    .strength-text {
+        font-size: 12px;
+        color: theme('text', 'muted');
+    }
+} 
